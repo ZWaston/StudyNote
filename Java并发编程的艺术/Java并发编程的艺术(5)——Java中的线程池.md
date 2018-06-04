@@ -2,7 +2,7 @@
 
 ## 一、线程池的作用
 
-合理使用线程池，能带来***3个好处***：
+合理使用线程池，能带来*3个好处*：
 
 1. **降低资源消耗**
 
@@ -38,11 +38,11 @@
 
 当我们向线程池提交一个任务后，线程池是如何处理这个任务的？
 
-在Java中，线程池 **ThreadPoolExecutor** 执行 `executor()` 方法的示意图如下：
+在Java中，线程池 **ThreadPoolExecutor** 执行 `execute()` 方法的示意图如下：
 
 ![ThreadPoolExecutor执行示意图](assets/ThreadPoolExecutor执行示意图.png)
 
-从上图可知，当用户提交一个任务到线程池， **ThreadPoolExecutor** 执行 `executor()` 方法分4种情况：
+从上图可知，当用户提交一个任务到线程池， **ThreadPoolExecutor** 执行 `execute()` 方法分4种情况：
 
 1. 如果 **当前运行的线程数量 < corePoolSize**，则创建新的线程来执行任务。（这一步骤**需要获取全局锁**）
 2. 如果**当前运行的线程数量 >= corePoolSize**，则将任务加入**阻塞队列BlockingQueue**中，等待线程拉取执行。
@@ -53,9 +53,9 @@
 
 **问题1**：maximumPool很容易理解是自行设置的最大允许线程数量，那么corePool是拿来干什么的？
 
-- **线程池每一次创建新的线程时，都需要获取全局锁**，这会是一个瓶颈。所以设计线程池有一个基本思想：执行`executor()`尽量避免获取全局锁。
+- **线程池每一次创建新的线程时，都需要获取全局锁**，这会是一个瓶颈。所以设计线程池有一个基本思想：执行`execute()`尽量避免获取全局锁。
 
-- **corePool的设计就是一个预热过程，**当**ThreadPoolExecutor** 完成预热之后（**当前运行的线程数量 >= corePoolSize**），在线程池线程数量未满的情况下，所有的`executor()`方法调用都是执行步骤2，步骤2是不需要获取全局锁的。
+- **corePool的设计就是一个预热过程，**当**ThreadPoolExecutor** 完成预热之后（**当前运行的线程数量 >= corePoolSize**），在线程池线程数量未满的情况下，所有的`execute()`方法调用都是执行步骤2，步骤2是不需要获取全局锁的。
 
 **问题2**：为什么Java的ThreadPoolExecutor 要采取上述的设计思路？
 
@@ -131,7 +131,7 @@ public ThreadPoolExecutor(int corePoolSize,
 
    * **SynchronousQueue**:一个不存储元素的无界阻塞队列（内部没有容器），一个线程的插入操作必须等到另一个线程调用移除操作，否则插入操作的线程一直处于阻塞状态，吞吐量高于LinkedBlockingQueue。静态工厂方法`Executors.newCachedThreadPool()`使用的就是它。
 
-   * **PriorityBlockingQueue**:一个具有优先级的无界阻塞队列。
+   * **PriorityBlockingQueue**:一个具有优先级的无限阻塞队列。
 
      
 
