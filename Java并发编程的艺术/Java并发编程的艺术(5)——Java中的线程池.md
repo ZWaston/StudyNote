@@ -248,4 +248,5 @@ public ThreadPoolExecutor(int corePoolSize,
 * getPoolSize：线程池的线程数量，只增不减
 * getActiveCount：获取活动的线程数量
 
+
 也可**继承线程池来自定义线程池**进行监控，重写`beforeExecute()`、`afterExecute()`和`terminated()`方法进行监控。
